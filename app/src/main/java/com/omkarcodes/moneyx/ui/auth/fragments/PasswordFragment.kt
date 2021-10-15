@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.omkarcodes.moneyx.R
 import com.omkarcodes.moneyx.databinding.FragmentPasswordBinding
 
@@ -59,7 +60,7 @@ class PasswordFragment : Fragment(R.layout.fragment_password){
             }else{
                 if (confirmPassword == password){
                     // continue
-                    Toast.makeText(requireContext(), "continue", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToSuccessFragment())
                 }else{
                     Toast.makeText(requireContext(), "PIN does not match", Toast.LENGTH_SHORT).show()
                     binding.textView.text = "Let's setup your PIN"

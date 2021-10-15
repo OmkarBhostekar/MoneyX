@@ -26,6 +26,10 @@ class OnboardingFragment : Fragment(R.layout.fragment_on_boarding){
             btnSignUp.setOnClickListener {
                 findNavController().navigate(OnboardingFragmentDirections.actionOnboardingFragmentToSignUpFragment())
             }
+
+            btnLogin.setOnClickListener {
+                findNavController().navigate(OnboardingFragmentDirections.actionOnboardingFragmentToLoginFragment())
+            }
         }
     }
 

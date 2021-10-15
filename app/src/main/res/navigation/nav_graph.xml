@@ -39,5 +39,32 @@
     <fragment
         android:id="@+id/passwordFragment"
         android:name="com.omkarcodes.moneyx.ui.auth.fragments.PasswordFragment"
-        android:label="PasswordFragment" />
+        android:label="PasswordFragment" >
+        <action
+            android:id="@+id/action_passwordFragment_to_successFragment"
+            app:destination="@id/successFragment" />
+        <action
+            android:id="@+id/action_passwordFragment_to_homeFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/successFragment"
+        android:name="com.omkarcodes.moneyx.ui.auth.fragments.SuccessFragment"
+        android:label="SuccessFragment" >
+        <action
+            android:id="@+id/action_successFragment_to_homeFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.omkarcodes.moneyx.ui.home.fragments.MainFragment"
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_newTransactionFragment"
+            app:destination="@id/newTransactionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newTransactionFragment"
+        android:name="com.omkarcodes.moneyx.ui.home.fragments.NewTransactionFragment"
+        android:label="NewTransactionFragment" />
 </navigation>
