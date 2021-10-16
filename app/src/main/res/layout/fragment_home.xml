@@ -33,31 +33,29 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/ivArrowDown"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="2dp"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    android:src="@drawable/ic_arrow_down"
-                    app:layout_constraintVertical_bias="0.55"
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:drawableTint="@color/colorGrey"
+                    android:paddingHorizontal="12dp"
+                    android:text="October"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="11sp"
+                    app:backgroundTint="#00000000"
+                    app:cornerRadius="15dp"
+                    app:icon="@drawable/ic_arrow_down"
+                    app:iconGravity="start"
+                    app:iconPadding="4dp"
+                    app:iconSize="18dp"
+                    app:iconTint="@color/colorGrey"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/tvMonth"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="#C6C6C6" />
-
-                <TextView
-                    android:id="@+id/tvMonth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="October"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@id/ivArrowDown"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:strokeColor="@color/colorGrey"
+                    app:strokeWidth="0.4dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
             <TextView
                 android:id="@+id/textView"
@@ -97,7 +95,7 @@
                     app:cardElevation="0dp"
                     app:cardBackgroundColor="@color/incomeGreen"
                     app:cardCornerRadius="25dp"
-                    android:layout_marginHorizontal="8dp">
+                    android:layout_marginHorizontal="12dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -158,7 +156,7 @@
                     app:cardElevation="0dp"
                     app:cardBackgroundColor="@color/expenseRed"
                     app:cardCornerRadius="25dp"
-                    android:layout_marginHorizontal="8dp">
+                    android:layout_marginHorizontal="12dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"

@@ -2,12 +2,12 @@ package com.omkarcodes.moneyx.ui.home
 
 import com.omkarcodes.moneyx.R
 
-sealed class Category(val icon: Int,val color: Int,val bg: Int,val title: String,val id: Int){
-    object Shopping : Category(R.drawable.ic_shopping,R.color.colorYellow,R.color.colorLightYellow,"Shopping",1)
-    object Subscription : Category(R.drawable.ic_subscription,R.color.colorPrimary,R.color.colorLightPurple,"Subscription",2)
-    object Food : Category(R.drawable.ic_food,R.color.colorRed,R.color.colorLightRed,"Food",3)
-    object Transport : Category(R.drawable.ic_transport,R.color.colorBlue,R.color.colorLightBlue,"Transport",4)
-    object Personal : Category(R.drawable.ic_personal,R.color.colorOrange,R.color.colorLightOrange,"Personal",5)
-    object Salary : Category(R.drawable.ic_salary,R.color.colorGreen,R.color.colorLightGreen,"Salary",6)
-    object Other : Category(R.drawable.ic_transaction,R.color.colorPink,R.color.colorLightPink,"Other",7)
+sealed class Category(val icon: Int,val color: String,val bg: String,val title: String,val id: Int){
+    object Shopping : Category(R.drawable.ic_shopping,"#FCAC12","#FCEED4","Shopping",1)
+    object Subscription : Category(R.drawable.ic_subscription,"#7F3DFF","#EEE5FF","Subscription",2)
+    object Food : Category(R.drawable.ic_food,"#FD3C4A","#FDD5D7","Food",3)
+    object Transport : Category(R.drawable.ic_transport,"#0077FF","#d8eaff","Transport",4)
+    object Personal : Category(R.drawable.ic_personal,"#ffa500","#ffe5b4","Personal",5)
+    object Salary : Category(R.drawable.ic_salary,"#228B22","#90EE90","Salary",6)
+    object Other : Category(R.drawable.ic_transaction,"#ff43a4","#ffcff1","Other",7)
 }

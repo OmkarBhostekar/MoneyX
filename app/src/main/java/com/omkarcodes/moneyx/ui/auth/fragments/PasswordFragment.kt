@@ -5,10 +5,15 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.omkarcodes.moneyx.R
 import com.omkarcodes.moneyx.databinding.FragmentPasswordBinding
+import com.omkarcodes.moneyx.ui.auth.AuthViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PasswordFragment : Fragment(R.layout.fragment_password){
 
     private var _binding: FragmentPasswordBinding? = null
@@ -16,12 +21,18 @@ class PasswordFragment : Fragment(R.layout.fragment_password){
         get() = _binding!!
     private var password = ""
     private var confirmPassword = ""
+    private val args: PasswordFragmentArgs by navArgs()
+    private val viewModel: AuthViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentPasswordBinding.bind(view)
 
         binding.apply {
+
+            if (!args.isPinCreation){
+                textView.text = "Enter your pin to continue"
+            }
 
             tv0.setOnClickListener { numKeyPressed("0") }
             tv1.setOnClickListener { numKeyPressed("1") }
@@ -52,23 +63,36 @@ class PasswordFragment : Fragment(R.layout.fragment_password){
         }else if (password.length <= 4){
             password += key
             fillCircles(password.length)
-            if (password.length == 4 && confirmPassword.isEmpty()){
-                binding.textView.text = "Re type your PIN again"
-                confirmPassword = password
-                password = ""
-                fillCircles(0)
-            }else{
-                if (confirmPassword == password){
-                    // continue
-                    findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToSuccessFragment())
-                }else{
-                    Toast.makeText(requireContext(), "PIN does not match", Toast.LENGTH_SHORT).show()
-                    binding.textView.text = "Let's setup your PIN"
-                    confirmPassword = ""
+            if (args.isPinCreation){
+                if (password.length == 4 && confirmPassword.isEmpty()){
+                    binding.textView.text = "Re type your PIN again"
+                    confirmPassword = password
                     password = ""
                     fillCircles(0)
+                }else{
+                    if (confirmPassword == password){
+                        viewModel.savePin(confirmPassword)
+                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToSuccessFragment())
+                    }else{
+                        resetPin()
+                    }
                 }
+            }else{
+                if (viewModel.checkPin(password))
+                    findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToHomeFragment())
+                else
+                    resetPin()
             }
+        }
+    }
+
+    private fun resetPin(){
+        binding.apply {
+            Toast.makeText(requireContext(), "PIN does not match", Toast.LENGTH_SHORT).show()
+            if (args.isPinCreation) binding.textView.text = "Let's setup your PIN"
+            confirmPassword = ""
+            password = ""
+            fillCircles(0)
         }
     }
 
