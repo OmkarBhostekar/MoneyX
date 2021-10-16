@@ -3,6 +3,7 @@ package com.omkarcodes.moneyx.ui.home.fragments
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -35,20 +36,29 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions), Transacti
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentTransactionsBinding.bind(view)
 
+        val calendar = Calendar.getInstance()
+        calendar.time = Date()
+        binding.btnMonth.text = calendar.getDisplayName(Calendar.MONTH,Calendar.LONG,Locale.getDefault())
+
         viewModel.transactions.observe(viewLifecycleOwner,{
             when(it){
                 is Resource.Success -> {
                     binding.apply {
-                        val data = it.data!!.groupBy { t -> t.date }
-                        val keys = data.keys.toMutableList()
-                        keys.sortByDescending { d -> d.dateToMillis() }
-                        rvTransactions.layoutManager = LinearLayoutManager(requireContext())
-                        rvTransactions.adapter = TransactionDateAdapter(
-                            data,
-                            keys,
-                            getDate(System.currentTimeMillis()),
-                            getDate(System.currentTimeMillis()-86400000),
-                        this@TransactionsFragment)
+                        if (it.data!!.isNotEmpty()){
+                            binding.tvNotFound.isVisible = false
+                            val data = it.data.groupBy { t -> t.date }
+                            val keys = data.keys.toMutableList()
+                            keys.sortByDescending { d -> d.dateToMillis() }
+                            rvTransactions.layoutManager = LinearLayoutManager(requireContext())
+                            rvTransactions.adapter = TransactionDateAdapter(
+                                data,
+                                keys,
+                                getDate(System.currentTimeMillis()),
+                                getDate(System.currentTimeMillis()-86400000),
+                                this@TransactionsFragment)
+                        }else{
+                            binding.tvNotFound.isVisible = true
+                        }
                     }
                 }
                 is Resource.Loading -> {
@@ -62,7 +72,6 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions), Transacti
         })
 
         viewModel.monthList.observe(viewLifecycleOwner,{
-            val calendar = Calendar.getInstance()
             calendar.timeInMillis = it.first().monthToMillis()
             binding.btnMonth.text = calendar.getDisplayName(Calendar.MONTH,Calendar.LONG,Locale.getDefault())
         })

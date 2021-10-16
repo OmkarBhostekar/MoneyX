@@ -52,11 +52,23 @@
                     app:iconSize="18dp"
                     app:iconTint="@color/colorGrey"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:strokeColor="@color/colorGrey"
                     app:strokeWidth="0.4dp" />
+
+                <ImageView
+                    android:id="@+id/btnLogout"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="5dp"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_logout"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
             <TextView
                 android:id="@+id/textView"
@@ -251,6 +263,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 tools:listitem="@layout/item_transaction"
+                app:layout_constraintTop_toBottomOf="@id/btnSeeAll"/>
+
+            <TextView
+                android:id="@+id/tvNotFound"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No Recent Transactions Found"
+                android:layout_marginTop="100dp"
+                android:gravity="center"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/btnSeeAll"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

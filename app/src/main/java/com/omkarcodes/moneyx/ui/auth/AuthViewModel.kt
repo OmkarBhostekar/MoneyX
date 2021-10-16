@@ -56,4 +56,8 @@ class AuthViewModel @Inject constructor(
     }
 
     fun checkPin(pin: String) : Boolean = pref.getString("pin","").equals(pin)
+
+    fun logout() = viewModelScope.launch(Dispatchers.IO) {
+        firebaseAuth.signOut()
+    }
 }

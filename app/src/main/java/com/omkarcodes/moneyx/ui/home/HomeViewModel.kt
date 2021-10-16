@@ -38,11 +38,15 @@ class HomeViewModel @Inject constructor(
             .get()
             .addOnSuccessListener {
                 val list = it.toObjects(Transaction::class.java)
-                monthWiseMap = list.groupBy { t -> t.date.substring(t.date.indexOf("-")+1) }
-                val orderedMonthList = monthWiseMap.keys.toMutableList()
-                orderedMonthList.sortByDescending { m -> m.monthToMillis() }
-                _monthList.postValue(orderedMonthList)
-                _transactions.postValue(Resource.Success(monthWiseMap[orderedMonthList.first()]!!))
+                if (list.isNotEmpty()){
+                    monthWiseMap = list.groupBy { t -> t.date.substring(t.date.indexOf("-")+1) }
+                    val orderedMonthList = monthWiseMap.keys.toMutableList()
+                    orderedMonthList.sortByDescending { m -> m.monthToMillis() }
+                    _monthList.postValue(orderedMonthList)
+                    _transactions.postValue(Resource.Success(monthWiseMap[orderedMonthList.first()]!!))
+                }else{
+                    _transactions.postValue(Resource.Success(listOf()))
+                }
             }
             .addOnFailureListener {
                 _transactions.postValue(Resource.Error("Unable to load transactions"))

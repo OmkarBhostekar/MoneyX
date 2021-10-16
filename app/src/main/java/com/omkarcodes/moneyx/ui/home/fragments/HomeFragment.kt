@@ -3,6 +3,7 @@ package com.omkarcodes.moneyx.ui.home.fragments
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -33,6 +34,9 @@ class HomeFragment : Fragment(R.layout.fragment_home),TransactionAdapter.OnClick
 
         viewModel.getTransactions()
 
+        val calendar = Calendar.getInstance()
+        calendar.time = Date()
+        binding.btnMonth.text = calendar.getDisplayName(Calendar.MONTH,Calendar.LONG,Locale.getDefault())
         binding.rvRecent.layoutManager = LinearLayoutManager(requireContext())
 
         val currentMonth = SimpleDateFormat("MM-yyyy", Locale.getDefault()).format(Date())
@@ -40,7 +44,10 @@ class HomeFragment : Fragment(R.layout.fragment_home),TransactionAdapter.OnClick
         viewModel.transactions.observe(viewLifecycleOwner,{
             when(it){
                 is Resource.Success -> {
-                    setupHomeScreen(it.data,currentMonth)
+                    if (it.data!!.isNotEmpty())
+                        setupHomeScreen(it.data,currentMonth)
+                    else
+                        setupNoTransaction()
                 }
                 is Resource.Loading -> {
 
@@ -53,15 +60,23 @@ class HomeFragment : Fragment(R.layout.fragment_home),TransactionAdapter.OnClick
         })
 
         viewModel.monthList.observe(viewLifecycleOwner,{
-            val calendar = Calendar.getInstance()
             calendar.timeInMillis = it.first().monthToMillis()
             binding.btnMonth.text = calendar.getDisplayName(Calendar.MONTH,Calendar.LONG,Locale.getDefault())
         })
+
+        binding.btnLogout.setOnClickListener {
+            findNavController().navigate(MainFragmentDirections.actionMainFragmentToLogOutBottomSheet())
+        }
+    }
+
+    private fun setupNoTransaction() {
+        binding.tvNotFound.isVisible = true
     }
 
     @SuppressLint("SetTextI18n")
     private fun setupHomeScreen(data: List<Transaction>?, currentMonth: String) {
         data?.let { list ->
+            binding.tvNotFound.isVisible = false
             var income = 0
             var expenses = 0
             list.forEach { t ->
