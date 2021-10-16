@@ -70,13 +70,20 @@ class HomeFragment : Fragment(R.layout.fragment_home),TransactionAdapter.OnClick
     }
 
     private fun setupNoTransaction() {
-        binding.tvNotFound.isVisible = true
+        binding.apply {
+            tvNotFound.isVisible = true
+            rvRecent.isVisible = false
+            tvBalance.text = "₹ 0"
+            tvIncome.text = "₹ 0"
+            tvExpense.text = "₹ 0"
+        }
     }
 
     @SuppressLint("SetTextI18n")
     private fun setupHomeScreen(data: List<Transaction>?, currentMonth: String) {
         data?.let { list ->
             binding.tvNotFound.isVisible = false
+            binding.rvRecent.isVisible = true
             var income = 0
             var expenses = 0
             list.forEach { t ->

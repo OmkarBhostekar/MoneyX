@@ -44,6 +44,7 @@ class LoginFragment : Fragment(R.layout.fragment_login){
             viewModel.authState.observe(viewLifecycleOwner,{
                 when(it){
                     is Resource.Success -> {
+                        Toast.makeText(requireContext(), it.data, Toast.LENGTH_SHORT).show()
                         progressBar.isVisible = false
                         findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToPasswordFragment(isPinCreation = true))
                     }
@@ -51,6 +52,7 @@ class LoginFragment : Fragment(R.layout.fragment_login){
                         progressBar.isVisible = true
                     }
                     is Resource.Error -> {
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                         progressBar.isVisible = false
 
                     }

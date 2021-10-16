@@ -21,7 +21,7 @@ class SuccessFragment : Fragment(R.layout.fragment_signup_success){
         _binding = FragmentSignupSuccessBinding.bind(view)
 
         lifecycleScope.launch {
-            delay(3000L)
+            delay(1000L)
             findNavController().navigate(SuccessFragmentDirections.actionSuccessFragmentToHomeFragment())
         }
     }

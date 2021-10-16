@@ -46,6 +46,7 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions), Transacti
                     binding.apply {
                         if (it.data!!.isNotEmpty()){
                             binding.tvNotFound.isVisible = false
+                            binding.rvTransactions.isVisible = true
                             val data = it.data.groupBy { t -> t.date }
                             val keys = data.keys.toMutableList()
                             keys.sortByDescending { d -> d.dateToMillis() }
@@ -58,6 +59,7 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions), Transacti
                                 this@TransactionsFragment)
                         }else{
                             binding.tvNotFound.isVisible = true
+                            binding.rvTransactions.isVisible = false
                         }
                     }
                 }

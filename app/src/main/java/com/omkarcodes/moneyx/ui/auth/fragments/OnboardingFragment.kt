@@ -4,12 +4,15 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.omkarcodes.moneyx.R
 import com.omkarcodes.moneyx.databinding.FragmentOnBoardingBinding
 import com.omkarcodes.moneyx.ui.auth.adapters.OnboardingAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -36,6 +39,15 @@ class OnboardingFragment : Fragment(R.layout.fragment_on_boarding){
 
             btnLogin.setOnClickListener {
                 findNavController().navigate(OnboardingFragmentDirections.actionOnboardingFragmentToLoginFragment())
+            }
+
+            lifecycleScope.launch {
+                while (true){
+                    delay(3000L)
+                    if (vpOnboarding.currentItem == 2){
+                        vpOnboarding.setCurrentItem(0,true)
+                    }else vpOnboarding.setCurrentItem(vpOnboarding.currentItem +1, true)
+                }
             }
         }
     }
