@@ -25,7 +25,10 @@ class HomeViewModel @Inject constructor(
     val monthList: LiveData<List<String>> = _monthList
     private val _newTransaction = MutableLiveData<Resource<String>>()
     val newTransaction: LiveData<Resource<String>> = _newTransaction
+    private val _deleteTransaction = MutableLiveData<Resource<String>>()
+    val deleteTransaction: LiveData<Resource<String>> = _deleteTransaction
     private lateinit var monthWiseMap: Map<String,List<Transaction>>
+    val seeAllClicked = MutableLiveData<Boolean>(false)
 
     fun getTransactions() = viewModelScope.launch(Dispatchers.IO) {
         _transactions.postValue(Resource.Loading())
@@ -50,21 +53,6 @@ class HomeViewModel @Inject constructor(
         _transactions.postValue(Resource.Success(monthWiseMap[key]!!))
     }
 
-    fun getRecent() = viewModelScope.launch(Dispatchers.IO) {
-        _transactions.postValue(Resource.Loading())
-        fireStore.collection("users")
-            .document(firebaseAuth.currentUser!!.uid)
-            .collection("transactions")
-            .get()
-            .addOnSuccessListener {
-                val list = it.toObjects(Transaction::class.java)
-                _transactions.postValue(Resource.Success(list))
-            }
-            .addOnFailureListener {
-                _transactions.postValue(Resource.Error("Unable to load transactions"))
-            }
-    }
-
     fun addTransaction(transaction: Transaction) = viewModelScope.launch(Dispatchers.IO) {
         fireStore.collection("users")
             .document(firebaseAuth.currentUser!!.uid)
@@ -80,6 +68,24 @@ class HomeViewModel @Inject constructor(
 
     fun clearNewTransaction() {
         _newTransaction.postValue(Resource.Empty())
+    }
+
+    fun clearDeletedTransaction() {
+        _deleteTransaction.postValue(Resource.Empty())
+    }
+
+    fun deleteTransaction(transaction: Transaction) = viewModelScope.launch(Dispatchers.IO) {
+        fireStore.collection("users")
+            .document(firebaseAuth.currentUser!!.uid)
+            .collection("transactions")
+            .document(transaction.documentId)
+            .delete()
+            .addOnSuccessListener {
+                _deleteTransaction.postValue(Resource.Success("Transaction deleted"))
+            }
+            .addOnFailureListener {
+                _deleteTransaction.postValue(Resource.Error("Unable to delete transaction"))
+            }
     }
 
 }

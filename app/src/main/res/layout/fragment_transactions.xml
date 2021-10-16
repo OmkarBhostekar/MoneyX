@@ -14,12 +14,13 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnMonth"
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:drawableTint="@color/colorGrey"
             android:paddingHorizontal="12dp"
-            android:text="October"
+            android:text="-"
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="11sp"

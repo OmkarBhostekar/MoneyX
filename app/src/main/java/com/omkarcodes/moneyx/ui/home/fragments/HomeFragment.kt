@@ -20,7 +20,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(R.layout.fragment_home){
+class HomeFragment : Fragment(R.layout.fragment_home),TransactionAdapter.OnClickListener {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding: FragmentHomeBinding
@@ -55,7 +55,7 @@ class HomeFragment : Fragment(R.layout.fragment_home){
         viewModel.monthList.observe(viewLifecycleOwner,{
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = it.first().monthToMillis()
-            binding.btnMonth.text = calendar[Calendar.MONTH].toString()
+            binding.btnMonth.text = calendar.getDisplayName(Calendar.MONTH,Calendar.LONG,Locale.getDefault())
         })
     }
 
@@ -77,9 +77,16 @@ class HomeFragment : Fragment(R.layout.fragment_home){
                 tvBalance.text = "₹ $balance"
                 tvIncome.text = "₹ $income"
                 tvExpense.text = "₹ $expenses"
-                rvRecent.adapter = TransactionAdapter(filteredList)
+                rvRecent.adapter = TransactionAdapter(filteredList,this@HomeFragment)
+                btnSeeAll.setOnClickListener {
+                    viewModel.seeAllClicked.postValue(true)
+                }
             }
         }
+    }
+
+    override fun onClick(transaction: Transaction) {
+        findNavController().navigate(MainFragmentDirections.actionMainFragmentToDetailFragment(transaction))
     }
 
     override fun onDestroy() {

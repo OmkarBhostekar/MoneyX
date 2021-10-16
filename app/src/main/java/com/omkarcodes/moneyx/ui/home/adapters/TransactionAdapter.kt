@@ -1,5 +1,6 @@
 package com.omkarcodes.moneyx.ui.home.adapters
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.Log
@@ -14,7 +15,8 @@ import com.omkarcodes.moneyx.ui.home.Transaction
 import kotlin.math.log
 
 class TransactionAdapter(
-    private val list: List<Transaction>
+    private val list: List<Transaction>,
+    private val listener: OnClickListener
 ) : RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -31,12 +33,12 @@ class TransactionAdapter(
 
     inner class ViewHolder(private val binding: ItemTransactionBinding)
         : RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
         fun bind(position: Int){
             val transaction = list[position]
             val category =
                 if (transaction.type == "income") Constants.incomeCategory.find { it.id == transaction.categoryId }
             else Constants.expenseCategory.find { it.id == transaction.categoryId }
-            Log.d("MyActvity", "bind: ${transaction.categoryId}")
             category?.let {
                 binding.apply {
                     cardview.setCardBackgroundColor(Color.parseColor(it.bg))
@@ -52,8 +54,13 @@ class TransactionAdapter(
                         tvAmount.setTextColor(ContextCompat.getColor(root.context, R.color.expenseRed))
                         tvAmount.text = "- ₹${transaction.amount}"
                     }
+                    root.setOnClickListener { listener.onClick(transaction) }
                 }
             }
         }
+    }
+
+    interface OnClickListener{
+        fun onClick(transaction: Transaction)
     }
 }

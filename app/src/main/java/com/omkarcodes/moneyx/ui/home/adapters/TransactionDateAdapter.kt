@@ -12,7 +12,8 @@ class TransactionDateAdapter(
     val data: Map<String,List<Transaction>>,
     val keys: List<String>,
     val today: String,
-    val yesterday: String
+    val yesterday: String,
+    private val listener: TransactionAdapter.OnClickListener
 ) : RecyclerView.Adapter<TransactionDateAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -36,7 +37,7 @@ class TransactionDateAdapter(
                 tvDate.text = if (key == today) "Today" else if (key == yesterday) "Yesterday" else key
                 val orderedList = list!!.sortedByDescending { t -> (t.date+ " "+t.time).toDateInMillis() }
                 rvTransactions.layoutManager = LinearLayoutManager(root.context)
-                rvTransactions.adapter = TransactionAdapter(orderedList)
+                rvTransactions.adapter = TransactionAdapter(orderedList,listener)
             }
 
         }

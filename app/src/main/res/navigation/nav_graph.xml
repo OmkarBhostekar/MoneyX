@@ -90,6 +90,9 @@
         <action
             android:id="@+id/action_mainFragment_to_newTransactionFragment"
             app:destination="@id/newTransactionFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
     <fragment
         android:id="@+id/newTransactionFragment"
@@ -99,5 +102,15 @@
             android:name="isIncome"
             app:argType="boolean"
             android:defaultValue="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.omkarcodes.moneyx.ui.home.fragments.DetailFragment"
+        android:label="DetailFragment" >
+        <argument
+            android:name="transaction"
+            app:argType="com.omkarcodes.moneyx.ui.home.Transaction"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 </navigation>

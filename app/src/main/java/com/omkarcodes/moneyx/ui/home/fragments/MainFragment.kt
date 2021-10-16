@@ -5,17 +5,22 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.omkarcodes.moneyx.R
 import com.omkarcodes.moneyx.databinding.FragmentMainBinding
+import com.omkarcodes.moneyx.ui.home.HomeViewModel
 import com.omkarcodes.moneyx.ui.home.adapters.MainViewpagerAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main){
 
     private var _binding: FragmentMainBinding? = null
     private val binding: FragmentMainBinding
         get() = _binding!!
+    private val viewModel: HomeViewModel by activityViewModels()
 
     private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(requireContext(),R.anim.rotate_open_anim) }
     private val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(requireContext(),R.anim.rotate_close_anim) }
@@ -69,6 +74,12 @@ class MainFragment : Fragment(R.layout.fragment_main){
                 findNavController().navigate(MainFragmentDirections.actionMainFragmentToNewTransactionFragment(isIncome = false))
             }
 
+            viewModel.seeAllClicked.observe(viewLifecycleOwner,{
+                if (it){
+                    vpMain.currentItem = 1
+                    viewModel.seeAllClicked.postValue(false)
+                }
+            })
         }
 
     }
