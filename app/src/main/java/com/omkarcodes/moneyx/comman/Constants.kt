@@ -17,6 +17,7 @@ object Constants {
 
     val incomeCategory = listOf(
         Category.Salary,
+        Category.PassiveIncome,
         Category.Other
     )
 }

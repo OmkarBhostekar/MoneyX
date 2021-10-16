@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.TextView
 import com.omkarcodes.moneyx.R
 import com.omkarcodes.moneyx.ui.home.Category
 
@@ -17,7 +19,17 @@ class CategoryAdapter(
         val view = convertView
             ?: LayoutInflater.from(mContext).inflate(R.layout.item_category,parent,false)
         getItem(position)?.let { item ->
+            view.findViewById<ImageView>(R.id.ivLogo).setImageResource(item.icon)
+            view.findViewById<TextView>(R.id.tvCategory).text = item.title
+        }
+        return view
+    }
 
+    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+        val view = LayoutInflater.from(mContext).inflate(R.layout.item_category,parent,false)
+        getItem(position)?.let { item ->
+            view.findViewById<ImageView>(R.id.ivLogo).setImageResource(item.icon)
+            view.findViewById<TextView>(R.id.tvCategory).text = item.title
         }
         return view
     }

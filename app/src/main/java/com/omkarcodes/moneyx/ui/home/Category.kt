@@ -10,4 +10,5 @@ sealed class Category(val icon: Int,val color: String,val bg: String,val title: 
     object Personal : Category(R.drawable.ic_personal,"#ffa500","#ffe5b4","Personal",5)
     object Salary : Category(R.drawable.ic_salary,"#228B22","#90EE90","Salary",6)
     object Other : Category(R.drawable.ic_transaction,"#ff43a4","#ffcff1","Other",7)
+    object PassiveIncome : Category(R.drawable.ic_passive,"#0077FF","#d8eaff","Passive Income",8)
 }
