@@ -16,7 +16,7 @@ class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.ViewHolder>()
     }
 
     override fun getItemCount(): Int {
-        return 20
+        return 4
     }
 
     inner class ViewHolder(private val binding: ItemTransactionBinding)

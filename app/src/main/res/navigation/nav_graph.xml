@@ -66,5 +66,10 @@
     <fragment
         android:id="@+id/newTransactionFragment"
         android:name="com.omkarcodes.moneyx.ui.home.fragments.NewTransactionFragment"
-        android:label="NewTransactionFragment" />
+        android:label="NewTransactionFragment" >
+        <argument
+            android:name="isIncome"
+            app:argType="boolean"
+            android:defaultValue="true" />
+    </fragment>
 </navigation>

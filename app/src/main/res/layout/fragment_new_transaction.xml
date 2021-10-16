@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/incomeGreen">
+    android:background="@color/incomeGreen"
+    android:id="@+id/mainCl">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -87,6 +88,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clCategory"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginHorizontal="20dp"
@@ -172,7 +174,7 @@
             android:layout_marginHorizontal="20dp"
             android:paddingVertical="8dp"
             android:layout_marginBottom="30dp"
-            app:layout_constraintBottom_toTopOf="@id/btnLogin">
+            app:layout_constraintBottom_toTopOf="@id/btnContinue">
             <TextView
                 android:id="@+id/tvRepeat"
                 android:layout_width="wrap_content"
@@ -202,7 +204,7 @@
                 android:layout_marginEnd="12dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnLogin"
+            android:id="@+id/btnContinue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"

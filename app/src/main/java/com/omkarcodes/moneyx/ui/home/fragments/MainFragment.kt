@@ -2,6 +2,8 @@ package com.omkarcodes.moneyx.ui.home.fragments
 
 import android.os.Bundle
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -14,6 +16,15 @@ class MainFragment : Fragment(R.layout.fragment_main){
     private var _binding: FragmentMainBinding? = null
     private val binding: FragmentMainBinding
         get() = _binding!!
+
+    private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(requireContext(),R.anim.rotate_open_anim) }
+    private val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(requireContext(),R.anim.rotate_close_anim) }
+    private val toBottomRight: Animation by lazy { AnimationUtils.loadAnimation(requireContext(),R.anim.to_bottom_right_anim) }
+    private val fromBottomRight: Animation by lazy { AnimationUtils.loadAnimation(requireContext(),R.anim.from_bottom_right_anim) }
+    private val toBottomLeft: Animation by lazy { AnimationUtils.loadAnimation(requireContext(),R.anim.to_bottom_left_anim) }
+    private val fromBottomLeft: Animation by lazy { AnimationUtils.loadAnimation(requireContext(),R.anim.from_bottom_left_anim) }
+
+    private var clicked = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,10 +54,44 @@ class MainFragment : Fragment(R.layout.fragment_main){
             }
 
             fabAdd.setOnClickListener {
-                findNavController().navigate(MainFragmentDirections.actionMainFragmentToNewTransactionFragment())
+                setVisibility(clicked)
+                setAnimation(clicked)
+                clicked = !clicked
             }
+
+            fabIncome.setOnClickListener {
+                clicked = !clicked
+                findNavController().navigate(MainFragmentDirections.actionMainFragmentToNewTransactionFragment(isIncome = true))
+            }
+
+            fabExpenses.setOnClickListener {
+                clicked = !clicked
+                findNavController().navigate(MainFragmentDirections.actionMainFragmentToNewTransactionFragment(isIncome = false))
+            }
+
         }
 
+    }
+    private fun setVisibility(clicked: Boolean) {
+        if (!clicked){
+            binding.fabIncome.visibility = View.VISIBLE
+            binding.fabExpenses.visibility = View.VISIBLE
+        }else{
+            binding.fabIncome.visibility = View.INVISIBLE
+            binding.fabExpenses.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun setAnimation(clicked: Boolean) {
+        if (!clicked){
+            binding.fabIncome.startAnimation(fromBottomRight)
+            binding.fabExpenses.startAnimation(fromBottomLeft)
+            binding.fabAdd.startAnimation(rotateOpen)
+        }else{
+            binding.fabIncome.startAnimation(toBottomRight)
+            binding.fabExpenses.startAnimation(toBottomLeft)
+            binding.fabAdd.startAnimation(rotateClose)
+        }
     }
 
      override fun onDestroy() {
